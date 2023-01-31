@@ -1,6 +1,8 @@
-const signup = require("./signup");
+const signupCTRL = require("./signupCTRL");
+const checkingEmailCTRL = require("./checkingEmailCTRL");
+const resendVerifyEmailCTRL = require("./resendVerifyEmailCTRL");
 const login = require("./login");
 const getCurrent = require("./getCurrent");
 const logout = require("./logout");
 
-module.exports = { signup, login, logout, getCurrent };
+module.exports = { signupCTRL, resendVerifyEmailCTRL, checkingEmailCTRL, login, logout, getCurrent };
