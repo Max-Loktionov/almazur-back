@@ -5,8 +5,7 @@ const { sendEmail, createVerifyEmail } = require("../../helpers");
 
 const resendVerifyEmailCTRL = async (req, res) => {
   const { verificationToken } = req.params;
-  // const { email } = req.body;
-  console.log("resendVerifyEmailCTRL req.params: ", req.params);
+
   const user = await User.findOne({ verificationToken });
   if (!user) {
     throw createError(404, `User not found`);
@@ -26,7 +25,7 @@ const resendVerifyEmailCTRL = async (req, res) => {
 
   res.json({
     response: {
-      message: "Verification email sent",
+      message: "Verification email is successful",
     },
   });
 };

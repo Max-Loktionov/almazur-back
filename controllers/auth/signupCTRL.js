@@ -5,7 +5,7 @@ const { v4 } = require("uuid");
 
 const { SECRET_KEY } = process.env;
 const { User } = require("../../models/user");
-const { sendEmail, createCheckingEmail } = require("../../helpers");
+const { createCheckingEmail, sendEmail } = require("../../services/mail");
 
 const signupCTRL = async (req, res) => {
   const { password, email, ...rest } = await req.body;
@@ -29,7 +29,6 @@ const signupCTRL = async (req, res) => {
     checkingToken,
     verificationToken: "",
   });
-  console.log("signupCTRL: ", name, surname, birthday);
 
   const payload = {
     id: newUser._id,
