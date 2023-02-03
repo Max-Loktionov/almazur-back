@@ -11,16 +11,9 @@ const signupCTRL = async (req, res) => {
   const { password, email, ...rest } = await req.body;
   const { name, surname, birthday } = rest;
 
-  const user = await User.findOne({ email });
-  if (user) {
-    throw createError(409, "Email in use");
-  }
-
   const checkingToken = v4();
   const hashPassword = await bcrypt.hash(password, 10);
-
-  const newUser = await User.create({
-    ...rest,
+  const newData = {
     name,
     surname,
     birthday,
@@ -28,7 +21,13 @@ const signupCTRL = async (req, res) => {
     password: hashPassword,
     checkingToken,
     verificationToken: "",
-  });
+  };
+
+  const user = await User.findOne({ email });
+  if (user) {
+    throw createError(409, "Email in use");
+  }
+  const newUser = await User.create({ newData });
 
   const payload = {
     id: newUser._id,

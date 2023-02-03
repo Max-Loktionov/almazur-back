@@ -2,6 +2,8 @@ const createError = require("http-errors");
 
 const { User } = require("../../../models/user");
 
+const signUpService = () => {};
+
 const checkingEmailService = async (checkingToken, verificationToken) => {
   const user = await User.findOne({ checkingToken }); // maybe it can be separate service?
 
@@ -20,6 +22,23 @@ const checkingEmailService = async (checkingToken, verificationToken) => {
   return user;
 };
 
+const resendVerifyEmailService = async verificationToken => {
+  const user = await User.findOne({ verificationToken });
+  if (!user) {
+    throw createError(404, `User not found`);
+  }
+  if (user.verify) {
+    throw createError(400, "Verification has already been passed");
+  }
+  await User.findByIdAndUpdate(user._id, {
+    verify: true,
+    verificationToken: "",
+  });
+  return user;
+};
+
 module.exports = {
+  signUpService,
   checkingEmailService,
+  resendVerifyEmailService,
 };
