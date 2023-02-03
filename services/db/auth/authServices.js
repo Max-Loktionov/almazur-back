@@ -2,7 +2,16 @@ const createError = require("http-errors");
 
 const { User } = require("../../../models/user");
 
-const signUpService = () => {};
+const signUpService = async (email, newData) => {
+  const user = await User.findOne({ email });
+  if (user) {
+    throw createError(409, "Email in use");
+  }
+
+  const newUser = await User.create({ ...newData });
+
+  return newUser;
+};
 
 const checkingEmailService = async (checkingToken, verificationToken) => {
   const user = await User.findOne({ checkingToken }); // maybe it can be separate service?
