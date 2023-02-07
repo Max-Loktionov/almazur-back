@@ -2,6 +2,8 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const cookieSession = require("cookie-session"); //?
+const passport = reequire("passport"); // ??
 require("dotenv").config();
 
 const authRouter = require("./routes/auth");
@@ -9,6 +11,10 @@ const authRouter = require("./routes/auth");
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 const FILE_LIMIT_SIZE = 9000000;
+
+app.use(cookieSession({ name: "session", keys: ["stud"], maxAge: 24 * 60 * 60 * 100 }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(logger(formatsLogger));
 app.use(cors());
