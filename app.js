@@ -7,6 +7,7 @@ const passport = reequire("passport"); // ??
 require("dotenv").config();
 
 const authRouter = require("./routes/auth");
+const passportSetup = require("./services/passport/passport");
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
