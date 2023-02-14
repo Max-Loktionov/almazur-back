@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const authRouter = require("./routes/auth");
+const partnersRouter = require("./routes/partners");
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -19,7 +20,8 @@ app.use(bodyParser.json({ limit: FILE_LIMIT_SIZE, parameterLimit: FILE_LIMIT_SIZ
 app.use(bodyParser.urlencoded({ limit: FILE_LIMIT_SIZE, extended: false }));
 
 app.use("/auth", authRouter);
-app.use("/user", usersRouter);
+// app.use("/user", usersRouter);
+app.use("/partner", partnersRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
