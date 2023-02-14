@@ -3,22 +3,32 @@ const logger = require("morgan");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session"); //?
-const passport = reequire("passport"); // ??
+const passport = require("passport");
+const session = require("express-session");
 require("dotenv").config();
 
 const authRouter = require("./routes/auth");
-const passportSetup = require("./services/passport/passport");
+require("./services/passport/passport")(passport);
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 const FILE_LIMIT_SIZE = 9000000;
+const { CLIENT_URL } = process.env;
 
-app.use(cookieSession({ name: "session", keys: ["stud"], maxAge: 24 * 60 * 60 * 100 }));
+//Middleware
+// app.use(cookieSession({ name: "session", keys: ["stud"], maxAge: 24 * 60 * 60 * 100 }));
+app.use(
+  session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(logger(formatsLogger));
-app.use(cors());
+app.use(cors({ origin: CLIENT_URL, methods: "get,post,put,delete", credentials: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
