@@ -21,7 +21,8 @@ router.get(
   passport.authenticate("google", {
     successRedirect: `${CLIENT_URL}/user`,
     failureRedirect: "/login",
-  })
+  }),
+  asyncWrapper(ctrl.googleAuthCTRL)
 );
 
 router.get("login", (req, res) => {

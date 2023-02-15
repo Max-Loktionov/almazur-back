@@ -1,14 +1,43 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const { v4 } = require("uuid");
+
+const { createCheckingEmail, sendEmail } = require("../mail");
+const { signUpService } = require("../db/auth/authServices");
 
 //Get the GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET from Google Developer Console
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 
-authUser = (request, accessToken, refreshToken, profile, done) => {
+authUser = async (request, accessToken, refreshToken, profile, done) => {
   console.log("passport7 profile email===", profile);
-  console.log("passport8 request====", request);
+  // console.log("passport8 request====", request);
   console.log("passport9 accessToken====", accessToken);
-  console.log("passport10 refreshToken====", refreshToken);
+  // console.log("passport10 refreshToken====", refreshToken);
+  const { name, displayName } = profile;
+  const userEmail = profile.emails[0].value;
+  // ================== CTRL ==============================
+  const checkingToken = v4();
 
+  const newData = {
+    name: displayName,
+    surname: name.familyName,
+
+    email: userEmail,
+    password: null,
+    checkingToken,
+    verify: true,
+    verificationToken: "",
+  };
+  const newUser = await signUpService(userEmail, newData);
+
+  const mail = createCheckingEmail(userEmail, checkingToken, name);
+
+  await sendEmail(mail);
+
+  // res.status(201).json({
+  //   message: "Після підтвердження даних адміністратором, ви зможете зайти в приватний кабінет",
+  //   data: { _id: newUser._id, name, userEmail },
+  // });
+  // ========================= example
   //check if a user exists with this email or not
   // user.findOne({ email: profile.emails[0].value }).then(data => {
   //   if (data) {
