@@ -1,10 +1,6 @@
 const bcrypt = require("bcryptjs");
-// const createError = require("http-errors");
-// const jwt = require("jsonwebtoken");
 const { v4 } = require("uuid");
 
-// const { SECRET_KEY } = process.env;
-// const { User } = require("../../models/user");
 const { createCheckingEmail, sendEmail } = require("../../services/mail");
 const { signUpService } = require("../../services/db/auth/authServices");
 

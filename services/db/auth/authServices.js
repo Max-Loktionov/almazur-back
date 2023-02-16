@@ -26,7 +26,6 @@ const checkingEmailService = async (checkingToken, verificationToken) => {
     await User.findByIdAndUpdate(user._id, {
       checked: true,
       checkingToken: "",
-      //  verificationToken,
     });
   } else {
     await User.findByIdAndUpdate(user._id, {
