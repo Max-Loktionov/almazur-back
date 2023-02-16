@@ -18,6 +18,7 @@ router.get("/verify/:verificationToken", asyncWrapper(ctrl.resendVerifyEmailCTRL
 router.get("/google", passport.authenticate("google", { scope: ["email", "profile"] }));
 router.get(
   "/google/callback",
+
   passport.authenticate("google", {
     successRedirect: `${CLIENT_URL}/user`,
     failureRedirect: "/login",

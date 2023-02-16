@@ -31,32 +31,32 @@ authUser = (request, accessToken, refreshToken, profile, done) => {
   return done(null, profile);
 };
 
-const gooogleAuthCTRL = async (req, res) => {
+const googleAuthCTRL = async (req, res) => {
   //   const { password, email, ...rest } = await req.body;
   //   const { name, surname, birthday } = rest;
+  console.log("===googleAuthCTRL37 req=====", req);
+  // const checkingToken = v4();
 
-  const checkingToken = v4();
+  // const newData = {
+  //   name,
+  //   surname,
+  //   birthday,
+  //   email,
+  //   password: hashPassword,
+  //   checkingToken,
+  //   verify: true,
+  //   verificationToken: "",
+  // };
+  // const newUser = await signUpService(email, newData);
 
-  const newData = {
-    name,
-    surname,
-    birthday,
-    email,
-    password: hashPassword,
-    checkingToken,
-    verify: true,
-    verificationToken: "",
-  };
-  const newUser = await signUpService(email, newData);
+  // const mail = createCheckingEmail(email, checkingToken, name, surname, birthday);
 
-  const mail = createCheckingEmail(email, checkingToken, name, surname, birthday);
+  // await sendEmail(mail);
 
-  await sendEmail(mail);
-
-  res.status(201).json({
-    message: "Після підтвердження даних адміністратором, ви зможете зайти в приватний кабінет",
-    data: { _id: newUser._id, name, surname, birthday, email },
-  });
+  // res.status(201).json({
+  //   message: "Після підтвердження даних адміністратором, ви зможете зайти в приватний кабінет",
+  //   data: { _id: newUser._id, name, surname, birthday, email },
+  // });
 };
 
-module.exports = gooogleAuthCTRL;
+module.exports = googleAuthCTRL;

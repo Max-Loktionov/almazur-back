@@ -22,11 +22,19 @@ const checkingEmailService = async (checkingToken, verificationToken) => {
   if (user.checked) {
     throw createError(400, "Checking has already been passed");
   }
-  await User.findByIdAndUpdate(user._id, {
-    checked: true,
-    checkingToken: "",
-    verificationToken,
-  });
+  if (user.verify) {
+    await User.findByIdAndUpdate(user._id, {
+      checked: true,
+      checkingToken: "",
+      //  verificationToken,
+    });
+  } else {
+    await User.findByIdAndUpdate(user._id, {
+      checked: true,
+      checkingToken: "",
+      verificationToken,
+    });
+  }
 
   return user;
 };
