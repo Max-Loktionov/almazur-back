@@ -12,9 +12,10 @@ authUser = async (request, accessToken, refreshToken, profile, done) => {
   // console.log("passport8 request====", request);
   console.log("passport9 accessToken====", accessToken);
   // console.log("passport10 refreshToken====", refreshToken);
+
+  // ================== CTRL ==============================
   const { name, displayName } = profile;
   const userEmail = profile.emails[0].value;
-  // ================== CTRL ==============================
   const checkingToken = v4();
 
   const newData = {
@@ -29,7 +30,7 @@ authUser = async (request, accessToken, refreshToken, profile, done) => {
   };
   const newUser = await signUpService(userEmail, newData);
 
-  const mail = createCheckingEmail(userEmail, checkingToken, name);
+  const mail = createCheckingEmail(userEmail, checkingToken, newData);
 
   await sendEmail(mail);
 
@@ -75,23 +76,39 @@ module.exports = passport => {
     )
   );
 
-  passport.serializeUser((user, done) => {
-    // console.log(`\n--------> Serialize User:`);
-    // console.log(user);
-    // The USER object is the "authenticated user" from the done() in authUser function.
-    // serializeUser() will attach this user to "req.session.passport.user.{user}", so that it is tied to the session object for each session.
-
-    done(null, user);
+  passport.serializeUser(function (user, cb) {
+    process.nextTick(function () {
+      return cb(null, {
+        id: user.id,
+        username: user.username,
+        // picture: user.picture,
+      });
+    });
   });
 
-  passport.deserializeUser((user, done) => {
-    // console.log("\n--------- Deserialized User:");
-    // console.log(user);
-    // This is the {user} that was saved in req.session.passport.user.{user} in the serializationUser()
-    // deserializeUser will attach this {user} to the "req.user.{user}", so that it can be used anywhere in the App.
+  // passport.serializeUser((user, done) => {
+  //   // console.log(`\n--------> Serialize User:`);
+  //   // console.log(user);
+  //   // The USER object is the "authenticated user" from the done() in authUser function.
+  //   // serializeUser() will attach this user to "req.session.passport.user.{user}", so that it is tied to the session object for each session.
 
-    done(null, user);
+  //   done(null, user);
+  // });
+
+  passport.deserializeUser(function (user, cb) {
+    process.nextTick(function () {
+      return cb(null, user);
+    });
   });
+
+  // passport.deserializeUser((user, done) => {
+  //   // console.log("\n--------- Deserialized User:");
+  //   // console.log(user);
+  //   // This is the {user} that was saved in req.session.passport.user.{user} in the serializationUser()
+  //   // deserializeUser will attach this {user} to the "req.user.{user}", so that it can be used anywhere in the App.
+
+  //   done(null, user);
+  // });
 };
 
 // passport.serializeUser((user, done) => done(null, user));

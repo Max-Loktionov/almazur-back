@@ -43,13 +43,13 @@ const signupCTRL = async (req, res) => {
   // );
   // await User.findByIdAndUpdate(newUser._id, { token });
   // ==========================================================
-  const mail = createCheckingEmail(email, checkingToken, name, surname, birthday);
+  const mail = createCheckingEmail(email, checkingToken, newData);
 
   await sendEmail(mail);
 
   res.status(201).json({
     message: "Після підтвердження даних адміністратором, на вказану вами адресу буде надіслано лист",
-    data: { _id: newUser._id, name, surname, birthday, email },
+    data: { _id: newUser._id, newData, email },
   });
 };
 
