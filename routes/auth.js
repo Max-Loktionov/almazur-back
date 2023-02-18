@@ -15,14 +15,15 @@ router.post("/signup", validation(schemasUser.registerJoiSchema), asyncWrapper(c
 router.get("/checking/:checkingToken", asyncWrapper(ctrl.checkingEmailCTRL));
 router.get("/verify/:verificationToken", asyncWrapper(ctrl.resendVerifyEmailCTRL));
 
-router.get("/google", passport.authenticate("google", { scope: ["email", "profile"] }));
+router.get("/google", passport.authenticate("google", { scope: ["email", "profile"] }), asyncWrapper(ctrl.testCTRL)); //todo:del asyncWrapper(ctrl.testCTRL)
 router.get(
   "/google/callback",
 
   passport.authenticate("google", {
     successRedirect: `${CLIENT_URL}/user`,
     failureRedirect: "/login",
-  })
+  }),
+  asyncWrapper(ctrl.testCTRL) //todo:del asyncWrapper(ctrl.testCTRL)
 );
 // ============= example =======
 // router.get("login", (req, res) => {

@@ -8,7 +8,11 @@ const session = require("express-session");
 require("dotenv").config();
 
 const authRouter = require("./routes/auth");
+<<<<<<< HEAD
 require("./services/passport/passport")(passport);
+=======
+const partnersRouter = require("./routes/partners");
+>>>>>>> d5aafe12f745f8421ed8f0f84cb7b5b9fde67aa8
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -37,6 +41,7 @@ app.use(bodyParser.urlencoded({ limit: FILE_LIMIT_SIZE, extended: false }));
 
 app.use("/auth", authRouter);
 // app.use("/user", usersRouter);
+app.use("/partner", partnersRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });

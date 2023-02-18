@@ -1,8 +1,9 @@
 const bcrypt = require("bcryptjs");
 const { v4 } = require("uuid");
+const createError = require("http-errors");
 
 const { createCheckingEmail, sendEmail } = require("../../services/mail");
-const { signUpService } = require("../../services/db/auth/authServices");
+const { createUserService, findUserByAnyFieldService } = require("../../services/db/auth/authServices");
 
 const signupCTRL = async (req, res) => {
   const { password, email, ...rest } = await req.body;
@@ -19,7 +20,12 @@ const signupCTRL = async (req, res) => {
     checkingToken,
     verificationToken: "",
   };
-  const newUser = await signUpService(email, newData);
+  const user = findUserByAnyFieldService(email);
+  // check if user exists
+  if (user) {
+    throw createError(409, "Email in use");
+  }
+  const newUser = await createUserService(email, newData);
 
   // =======================
   // const user = await User.findOne({ email });

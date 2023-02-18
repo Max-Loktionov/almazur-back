@@ -64,6 +64,10 @@ const userSchema = new Schema(
       enum: ["nub", "semi", "queen"],
       default: "nub",
     },
+    googleId: {
+      type: String,
+      default: "",
+    },
   },
   { versionKey: false, timestamps: true }
 );
