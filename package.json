@@ -13,10 +13,12 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.1",
     "cloudinary": "^1.32.0",
+    "cookie-session": "^2.0.0",
     "cors": "2.8.5",
     "cross-env": "7.0.3",
     "dotenv": "^16.0.2",
     "express": "4.17.1",
+    "express-session": "^1.17.3",
     "http-errors": "^2.0.0",
     "jimp": "^0.16.2",
     "joi": "^17.6.0",
@@ -24,6 +26,8 @@
     "mongoose": "^6.6.1",
     "morgan": "1.10.0",
     "multer": "^1.4.5-lts.1",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

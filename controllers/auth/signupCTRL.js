@@ -1,10 +1,6 @@
 const bcrypt = require("bcryptjs");
-// const createError = require("http-errors");
-// const jwt = require("jsonwebtoken");
 const { v4 } = require("uuid");
 
-// const { SECRET_KEY } = process.env;
-// const { User } = require("../../models/user");
 const { createCheckingEmail, sendEmail } = require("../../services/mail");
 const { signUpService } = require("../../services/db/auth/authServices");
 
@@ -43,13 +39,13 @@ const signupCTRL = async (req, res) => {
   // );
   // await User.findByIdAndUpdate(newUser._id, { token });
   // ==========================================================
-  const mail = createCheckingEmail(email, checkingToken, name, surname, birthday);
+  const mail = createCheckingEmail(email, checkingToken, newData);
 
   await sendEmail(mail);
 
   res.status(201).json({
     message: "Після підтвердження даних адміністратором, на вказану вами адресу буде надіслано лист",
-    data: { _id: newUser._id, name, surname, birthday, email },
+    data: { _id: newUser._id, newData, email },
   });
 };
 
